@@ -1,12 +1,12 @@
-#!/usr/bin/env bash
-set -o errexit
-set -o nounset
-set -o xtrace
+#!/bin/bash
+set -e  # Exit immediately if any command fails
 
-pip install --upgrade pip
-pip install --upgrade setuptools wheel
+# Run commands in sequence
+echo "Running command 1..."
 pip install -r requirements.txt
 
+echo "Running command 2..."
 python manage.py collectstatic --noinput
 
+echo "Running command 3..."
 python manage.py migrate
