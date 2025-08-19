@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order History | HarvestHub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'user/userorders.css' %}" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <h1>Harvest<span>Hub</span></h1>
+      </div>
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+      <nav>
+        <ul>
+          <li>
+            <a href="{% url 'userhome' %}"
+              ><i class="fas fa-home"></i> <span>Home</span></a
+            >
+          </li>
+          <li>
+            <a href="{% url 'userproducts' %}"
+              ><i class="fas fa-shopping-basket"></i> <span>Products</span></a
+            >
+          </li>
+          <li class="active">
+            <a href="{% url 'userorders' %}"
+              ><i class="fas fa-history"></i> <span>Orders</span></a
+            >
+          </li>
+          <li>
+            <a href="{% url 'userprofile' %}"
+              ><i class="fas fa-user"></i> <span>Profile</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="orders-section">
+        <div class="orders-header">
+          <h2 class="slide-up">Your Order History</h2>
+          <p class="fade-in">View and manage your past orders</p>
+        </div>
+
+        <div class="order-tabs">
+          <a href="{% url 'userorders' %}" class="tab-btn active">All orders</a>
+          <a href="{% url 'userrecent' %}" class="tab-btn">Recent Orders</a>
+          <a href="{% url 'usershipped' %}" class="tab-btn">Shipped</a>
+          <a href="{% url 'useraccepts' %}" class="tab-btn">Accepted</a>
+          <a href="{% url 'userdelivered' %}" class="tab-btn">Delivered</a>
+          <a href="{% url 'usercancelled' %}" class="tab-btn">Cancelled</a>
+        </div>
+
+        <div class="order-cards" id="container"></div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-nav">
+        <a href="index.html"><i class="fas fa-home"></i></a>
+        <a href="products.html"><i class="fas fa-shopping-basket"></i></a>
+        <a href="orders.html" class="active"><i class="fas fa-history"></i></a>
+        <a href="profile.html"><i class="fas fa-user"></i></a>
+      </div>
+      <p>&copy; 2023 FreshHarvest. All rights reserved.</p>
+    </footer>
+
+    <script>
+      // Mobile menu toggle
+      document
+        .querySelector(".mobile-menu-btn")
+        .addEventListener("click", function () {
+          document.querySelector("nav").classList.toggle("active");
+        });
+
+      // Tab functionality
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          document
+            .querySelectorAll(".tab-btn")
+            .forEach((b) => b.classList.remove("active"));
+          this.classList.add("active");
+          // Here you would typically filter orders based on the selected tab
+        });
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        loadProducts();
+      });
+
+      function loadProducts() {
+        const orders = JSON.parse("{{ objs_json|escapejs }}");
+        const container = document.getElementById("container");
+
+        // Clear any existing content
+        container.innerHTML = "";
+
+        if (orders.length === 0) {
+          container.innerHTML = "<p>No Orders available</p>";
+          return;
+        }
+
+        orders.forEach((order) => {
+          const orderCard = document.createElement("div");
+          orderCard.className = "order-card pop-in";
+
+          // Format the date (you might want to format this properly from your order data)
+          const orderDate = order.created_at
+            ? new Date(order.created_at).toLocaleString()
+            : "October 5, 2023";
+
+          orderCard.innerHTML = `
+        <div class="order-header">
+          <h3>ORDER #FH-${order.id || "77892"}</h3>
+          <span class="order-status status-cancelled">${
+            order.status || "Cancelled"
+          }</span>
+        </div>
+        
+        <div class="order-details">
+          <p><strong>Date:</strong> ${orderDate}</p>
+          <p><strong>Delivery Address:</strong> ${
+            order.destination || "123 Main St, Apt 4B, Cityville"
+          }</p>
+        </div>
+        
+        <div class="order-items">
+          <div class="order-item">
+            <div class="item-image">
+              <img src="${
+                order.image_1 ||
+                "https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80"
+              }" alt="${order.product_name || "Strawberries"}" />
+            </div>
+            <div class="item-info">
+              <h4>${order.product_name || "Sweet Strawberries"}</h4>
+              <div class="item-meta">
+                <span>Quantity:${order.quantity || "2"}</span>
+                <span>Rs.${order.price_per_kg || "7.98"} per quantity</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="order-total">
+          <p>Total: RS.${order.total || "9.98"}</p>
+        </div>
+        
+        <div class="order-actions">
+          <button class="action-btn reorder-btn">${order.status}</button>
+        </div>
+      `;
+
+          container.appendChild(orderCard);
+        });
+      }
+    </script>
+  </body>
+</html>

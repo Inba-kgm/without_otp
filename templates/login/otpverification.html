@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HarvestHub - Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'login/auth.css' %}">
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Background Animation Elements -->
+        <div class="bg-animation">
+            <div class="leaf leaf-1"></div>
+            <div class="leaf leaf-2"></div>
+            <div class="leaf leaf-3"></div>
+            <div class="sun"></div>
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+        </div>
+        
+        <!-- Signup Form -->
+        <div class="auth-form signup-form">
+            
+            
+            <form method="post" action="/entry/verify/">
+                {% csrf_token %}
+                <div class="input-group">
+                    
+                    <input name="name" type="hidden" value="{{ name }}" placeholder="Full Name">
+                </div>
+                
+                <div class="input-group">
+					<i class="fas fa-envelope"></i>
+                    <input type="email" name='email' value="{{ email }}" placeholder="Email Address">
+                </div>
+                <div class="input-group">
+                    <input type="hidden" name='occupation' value="{{ occupation }}"
+                    placeholder="occupation">
+                </div>
+                
+                <div class="input-group">
+                    
+                    <input type="hidden" name='otps' value="" value="{{ otp }}">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <input type="number" name='otp' value="" placeholder="Enter
+                    OTP" required>
+                    <div class="error">
+                    {{ err }}
+                    </div>
+                </div>
+                
+                
+                <div class="input-group">
+                    
+                    <input name="phone" type="hidden" value="{{ phone }}" placeholder="Phone Number">
+                </div>
+                
+                <div class="input-group">
+                    
+                    <input name="pass" type="hidden" value="{{ pass }}" placeholder="Create Password">
+                 
+                </div>
+                
+                <div class="input-group">
+                    
+                    <input name="cpass" type="hidden" value="{{ cpass }}" placeholder="Create Password">
+                 
+                </div>
+                
+                
+                <br>
+                
+                <button type="submit" class="btn-signup">
+                    <i class="fas fa-user-plus"></i> Verify
+                </button>
+                
+            </form>
+        </div>
+    </div>
+</body>
+</html>

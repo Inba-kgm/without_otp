@@ -1,0 +1,606 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload Products | FarmDash</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'farmer/farmupload.css' %}" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <h1>Harvest<span>Hub</span></h1>
+        {{ myname }}
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <a href="{% url 'farmhome' %}"
+              ><i class="fas fa-house"></i> <span>Home</span></a
+            >
+          </li>
+          <li class="active">
+            <a href="{% url 'farmupload' %}"
+              ><i class="fas fa-arrow-up"></i> <span>Upload</span></a
+            >
+          </li>
+          <li>
+            <a href="{% url 'farmorders' %}"
+              ><i class="fas fa-cart-shopping"></i> <span>Orders</span>
+              <span class="notification-badge">3</span></a
+            >
+          </li>
+          <li>
+            <a href="{% url 'farmprofile' %}"
+              ><i class="fas fa-user"></i> <span>Profile</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section class="upload-header slide-up">
+        <h1><i class="fas fa-arrow-up"></i> Upload Your Products</h1>
+        <p class="fade-in">
+          Fill in details about your fresh farm produce to start selling
+        </p>
+
+        <form
+          class="upload-form pop-in"
+          enctype="multipart/form-data"
+          method="POST"
+          action="/farmer/publish/"
+        >
+          {% csrf_token %}
+          <div class="form-section">
+            <h3><i class="fas fa-images"></i> Product Photos</h3>
+            <div class="preview-align">
+              <div class="image-upload-box" id="main-image">
+                <input
+                  name="image-1"
+                  type="file"
+                  id="main-upload"
+                  accept="image/*"
+                  class="file-input"
+                />
+                <label for="main-upload" class="upload-label">
+                  <i class="fas fa-camera fa-3x"></i>
+                  <span>Main Product Image</span>
+                  <span class="upload-hint">(Click to upload)</span>
+                </label>
+                <img
+                  id="main-preview"
+                  alt="Main Preview"
+                  style="
+                    display: none;
+                    width: 100%;
+                    border-radius: 8px;
+                    margin-top: 10px;
+                    height: 100vh;
+                  "
+                />
+              </div>
+              <div class="additional-images">
+                <div class="image-upload-box">
+                  <input
+                    name="image-2"
+                    type="file"
+                    id="add-more1"
+                    accept="image/*"
+                    class="file-input"
+                  />
+                  <label for="add-more1" class="upload-label">
+                    <i class="fas fa-plus fa-2x"></i>
+                    <span class="upload-hint">Add more</span>
+                  </label>
+                  <img
+                    id="more1-preview"
+                    class="preview-image"
+                    style="
+                      display: none;
+                      width: 100%;
+                      border-radius: 8px;
+                      margin-top: 10px;
+                    "
+                  />
+                </div>
+                <div class="image-upload-box">
+                  <input
+                    name="image-3"
+                    id="add-more2"
+                    type="file"
+                    accept="image/*"
+                    class="file-input"
+                  />
+                  <label for="add-more2" class="upload-label">
+                    <i class="fas fa-plus fa-2x"></i>
+                    <span class="upload-hint">Add more</span>
+                  </label>
+                  <img
+                    id="more2-preview"
+                    class="preview-image"
+                    style="
+                      display: none;
+                      width: 100%;
+                      border-radius: 8px;
+                      margin-top: 10px;
+                    "
+                  />
+                </div>
+                <div class="image-upload-box">
+                  <input
+                    name="image-4"
+                    id="add-more3"
+                    type="file"
+                    accept="image/*"
+                    class="file-input"
+                  />
+                  <label for="add-more3" class="upload-label">
+                    <i class="fas fa-plus fa-2x"></i>
+                    <span class="upload-hint">Add more</span>
+                  </label>
+                  <img
+                    id="more3-preview"
+                    class="preview-image"
+                    style="
+                      display: none;
+                      width: 100%;
+                      border-radius: 8px;
+                      margin-top: 10px;
+                    "
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3><i class="fas fa-info-circle"></i> Basic Information</h3>
+            <div class="form-group">
+              <label for="product-name">Product Name*</label>
+
+              <input
+                name="product-name"
+                type="text"
+                id="product-name"
+                placeholder="e.g., Organic Tomatoes"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="product-category">Category*</label>
+              <select name="category" id="product-category" required>
+                <option value="">Select a category</option>
+                <option value="vegetables">Vegetables</option>
+                <option value="fruits">Fruits</option>
+                <option value="grains">Grains & Pulses</option>
+              </select>
+            </div>
+          </div>
+          <!-- Pricing & Quantity Section -->
+          <div class="form-section">
+            <h3><i class="fas fa-tag"></i> Pricing & Quantity</h3>
+
+            <!-- Price per unit -->
+            <div class="form-row">
+              <div class="form-group half-width">
+                <label for="product-price">Price per Unit*</label>
+                <div class="price-input">
+                  <span class="currency-symbol">₹</span>
+                  <input
+                    name="amount"
+                    type="number"
+                    id="product-price"
+                    min="1"
+                    step="0.01"
+                    placeholder="0.00"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group half-width">
+                <label for="price-unit">Unit Type*</label>
+                <select name="per-unit" id="price-unit" required>
+                  <option value="">Select unit</option>
+                  <option value="kg">per kg</option>
+                  <option value="g">per 100g</option>
+                  <option value="piece">per piece</option>
+                  <option value="dozen">per dozen</option>
+                  <option value="liter">per liter</option>
+                  <option value="bunch">per bunch</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Available Quantity -->
+            <div class="form-group">
+              <label for="available-quantity">Available Quantity*</label>
+              <div class="quantity-input">
+                <input
+                  name="available-quantity"
+                  type="number"
+                  id="available-quantity"
+                  min="1"
+                  placeholder="0"
+                  required
+                />
+                <span class="quantity-unit">kg</span>
+              </div>
+            </div>
+
+            <!-- Minimum Order Quantity -->
+            <!-- <div class="form-group">
+            <label for="min-order">Minimum Order Quantity</label>
+            <div class="quantity-input">
+              <input name="order-quantity" type="number" id="min-order" min="1" placeholder="0">
+              <span class="quantity-unit">kg</span>
+            </div>
+          </div> -->
+            <!-- Add this in the Basic Information section -->
+            <div class="form-group">
+              <label for="product-description">Product Description*</label>
+              <div class="description-box">
+                <textarea
+                  name="description"
+                  id="product-description"
+                  rows="6"
+                  placeholder="Describe your product in detail..."
+                  required
+                ></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="product-destination">Address*</label>
+              <div class="description-box">
+                <textarea
+                  name="destination"
+                  id="product-destination"
+                  rows="6"
+                  placeholder="Address of your farm..."
+                  required
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- Bulk Discount (optional) -->
+            <div class="form-group">
+              <label>Bulk Discount Options</label>
+              <div class="discount-options">
+                <div class="discount-option">
+                  <input
+                    type="number"
+                    placeholder="Qty"
+                    min="5"
+                    class="discount-qty"
+                  />
+                  <input
+                    type="hidden"
+                    name="farmername"
+                    value="{{ myname }}"
+                  />
+                  <span>+ units = </span>
+                  <span class="currency-symbol">₹</span>
+                  <input
+                    type="number"
+                    placeholder="Price"
+                    min="1"
+                    step="0.01"
+                    class="discount-price"
+                  />
+                  <button type="button" class="btn-remove-discount">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+                <button type="button" class="btn-add-discount">
+                  <i class="fas fa-plus"></i> Add Bulk Discount
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary">
+              <i class="fas fa-times"></i> Cancel
+            </button>
+            <button type="submit" class="btn-primary pulse">
+              <i class="fas fa-check"></i> Publish Product
+            </button>
+          </div>
+        </form>
+
+        <div class="upload-tips slide-in-left">
+          <h3><i class="fas fa-lightbulb"></i> Selling Tips</h3>
+          <div class="tip-card rotate">
+            <i class="fas fa-camera"></i>
+            <h4>Good Photos Sell Better</h4>
+            <p>Use clear, well-lit photos that show your product's quality.</p>
+          </div>
+          <div class="tip-card rotate">
+            <i class="fas fa-pen"></i>
+            <h4>Detailed Descriptions</h4>
+            <p>Mention variety, growing methods, and special qualities.</p>
+          </div>
+
+          <!-- Enhanced Tips Section -->
+
+          <div class="tip-card">
+            <i class="fas fa-camera"></i>
+            <h4>Photography Matters</h4>
+            <ul>
+              <li>Use natural daylight for photos</li>
+              <li>Show multiple angles of your product</li>
+              <li>Include a photo with standard size reference</li>
+              <li>Show the product in its natural environment</li>
+            </ul>
+          </div>
+
+          <div class="tip-card">
+            <i class="fas fa-indian-rupee-sign"></i>
+            <h4>Pricing Strategies</h4>
+            <ul>
+              <li>Research competitor prices regularly</li>
+              <li>Consider offering volume discounts</li>
+              <li>Price slightly higher for premium quality</li>
+              <li>Adjust prices based on seasonality</li>
+            </ul>
+          </div>
+          <div class="description-tips">
+            <p>
+              <i class="fas fa-lightbulb"></i>
+              <strong>Description Tips:</strong>
+            </p>
+            <ul>
+              <li>Mention the variety or breed</li>
+              <li>Describe growing methods (organic, natural, etc.)</li>
+              <li>Note any special qualities or certifications</li>
+              <li>Include harvest date if relevant</li>
+              <li>Add storage or usage suggestions</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-nav">
+        <a href="farmhome.html"><i class="fas fa-house"></i></a>
+        <a href="farmupload.html" class="active"
+          ><i class="fas fa-arrow-up"></i
+        ></a>
+        <a href="farmorders.html"><i class="fas fa-cart-shopping"></i></a>
+        <a href="farmprofile.html"><i class="fas fa-user"></i></a>
+      </div>
+      <p>&copy; 2023 FarmDash. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Update quantity unit when unit type changes
+    const unitSelect = document.getElementById("price-unit");
+    const quantityUnits = document.querySelectorAll(".quantity-unit");
+
+    unitSelect.addEventListener("change", function () {
+      quantityUnits.forEach((unit) => {
+        unit.textContent =
+          this.value === "dozen"
+            ? "dozen"
+            : this.value === "piece"
+            ? "pieces"
+            : this.value === "liter"
+            ? "liters"
+            : this.value === "bunch"
+            ? "bunches"
+            : "kg";
+      });
+    });
+
+    // Add/remove discount options
+    const discountContainer = document.querySelector(".discount-options");
+    const addDiscountBtn = document.querySelector(".btn-add-discount");
+
+    addDiscountBtn.addEventListener("click", function () {
+      const newOption = document.createElement("div");
+      newOption.className = "discount-option";
+      newOption.innerHTML = `
+      <input type="number" placeholder="Qty" min="5" class="discount-qty">
+      <span>+ units = </span>
+      <span class="currency-symbol">₹</span>
+      <input type="number" placeholder="Price" min="1" step="0.01" class="discount-price">
+      <button type="button" class="btn-remove-discount"><i class="fas fa-times"></i></button>
+      `;
+      discountContainer.insertBefore(newOption, addDiscountBtn);
+
+      // Add event to new remove button
+      newOption
+        .querySelector(".btn-remove-discount")
+        .addEventListener("click", function () {
+          newOption.remove();
+        });
+    });
+
+    // Initialize any existing remove buttons
+    document.querySelectorAll(".btn-remove-discount").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        this.closest(".discount-option").remove();
+      });
+    });
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const descriptionTextarea = document.getElementById("product-description");
+    const descriptionTips = document.querySelector(".description-tips");
+
+    // Show character count
+    const charCount = document.createElement("div");
+    charCount.className = "char-count";
+    charCount.textContent = "0/1000 characters";
+    descriptionTextarea.parentNode.insertBefore(
+      charCount,
+      descriptionTextarea.nextSibling
+    );
+
+    descriptionTextarea.addEventListener("input", function () {
+      const currentLength = this.value.length;
+      charCount.textContent = `${currentLength}/1000 characters`;
+
+      if (currentLength > 800) {
+        charCount.style.color = "#ff9800"; // Orange
+      } else {
+        charCount.style.color = "#666";
+      }
+
+      if (currentLength >= 1000) {
+        charCount.style.color = "#f44336"; // Red
+        this.value = this.value.substring(0, 1000);
+      }
+    });
+
+    // Auto-expand textarea as user types
+    descriptionTextarea.addEventListener("input", function () {
+      this.style.height = "auto";
+      this.style.height = this.scrollHeight + "px";
+    });
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const descriptionTextarea = document.getElementById("product-destination");
+    // Show character count
+    const charCount = document.createElement("div");
+    charCount.className = "char-count";
+    charCount.textContent = "0/1000 characters";
+    descriptionTextarea.parentNode.insertBefore(
+      charCount,
+      descriptionTextarea.nextSibling
+    );
+
+    descriptionTextarea.addEventListener("input", function () {
+      const currentLength = this.value.length;
+      charCount.textContent = `${currentLength}/1000 characters`;
+
+      if (currentLength > 800) {
+        charCount.style.color = "#ff9800"; // Orange
+      } else {
+        charCount.style.color = "#666";
+      }
+
+      if (currentLength >= 1000) {
+        charCount.style.color = "#f44336"; // Red
+        this.value = this.value.substring(0, 1000);
+      }
+    });
+
+    // Auto-expand textarea as user types
+    descriptionTextarea.addEventListener("input", function () {
+      this.style.height = "auto";
+      this.style.height = this.scrollHeight + "px";
+    });
+  });
+</script>
+<script>
+  document
+    .getElementById("main-upload")
+    .addEventListener("change", function (event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const preview = document.getElementById("main-preview");
+          preview.src = e.target.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+</script>
+<script>
+  document
+    .getElementById("add-more1")
+    .addEventListener("change", function (event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const preview = document.getElementById("more1-preview");
+          preview.src = e.target.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+</script>
+<script>
+  document
+    .getElementById("add-more3")
+    .addEventListener("change", function (event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const preview = document.getElementById("more3-preview");
+          preview.src = e.target.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+</script>
+<script>
+  document
+    .getElementById("add-more2")
+    .addEventListener("change", function (event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const preview = document.getElementById("more2-preview");
+          preview.src = e.target.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+</script>
+
+<script>
+  document
+    .getElementById("main-upload")
+    .addEventListener("change", function (event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const preview = document.getElementById("main-preview");
+          preview.src = e.target.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+  // For additional images
+  document
+    .querySelectorAll(".additional-images .file-input")
+    .forEach((input) => {
+      input.addEventListener("change", function (event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const preview = input.parentElement.querySelector(".preview-image");
+            preview.src = e.target.result;
+            preview.style.display = "block";
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    });
+</script>

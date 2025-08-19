@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HarvestHub - Login</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'login/auth.css' %}" />
+  </head>
+  <body>
+    <div class="auth-container">
+      <!-- Background Animation Elements -->
+      <div class="bg-animation">
+        <div class="leaf leaf-1"></div>
+        <div class="leaf leaf-2"></div>
+        <div class="leaf leaf-3"></div>
+        <div class="sun"></div>
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+      </div>
+
+      <!-- Login Form -->
+      <div class="auth-form login-form">
+        <div class="form-header">
+          <img
+            src="{% static 'images/harvesthub1.png' %}"
+            alt="FarmDash Logo"
+            class="logo"
+          />
+          <h1>Welcome Back to HarvestHub!</h1>
+          <p>Login to manage your produce and orders</p>
+        </div>
+
+        <form method="post" action="/entry/logotpverification/">
+          {% csrf_token %}
+          <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input
+              name="otp"
+              type="number"
+              placeholder="Enter OTP"
+              required
+            />
+            <input
+              name="otps"
+              type="hidden"
+              placeholder="Enter OTP"
+              value="{{ otp }}"
+            />
+			<br />
+            <input
+              name="email"
+              type="hidden"
+              value="{{ email }}"
+            />
+			<br />
+            <input
+              name="obj"
+              type="hidden"
+              value="{{ obj }}"
+            />
+			<br />
+
+          <p class="error">{{ err }}</p>
+          <br />
+          <button type="submit" class="btn-login">
+            <i class="fas fa-sign-in-alt"></i> Verify
+          </button>
+
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

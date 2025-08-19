@@ -1,0 +1,829 @@
+/* Base Styles (Mobile First) */
+:root {
+    --primary-color: #2E7D32; /* Deep green */
+    --primary-dark: #1B5E20; /* Darker green */
+    --primary-light: #4CAF50; /* Lighter green */
+    --secondary-color: #8BC34A; /* Lime green */
+    --accent-color: #FFC107; /* Yellow for accents */
+    --text-color: #333;
+    --text-light: #777;
+    --bg-color: #F1F8E9; /* Very light green background */
+    --white: #ffffff;
+    --shadow: 0 4px 12px rgba(46, 125, 50, 0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Header Styles (same as farmhome.css) */
+header {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: var(--white);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.logo span {
+    color: var(--secondary-color);
+}
+
+.mobile-menu-btn {
+    display: none;
+    font-size: 1.5rem;
+    color: var(--white);
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 1rem;
+}
+
+nav ul li a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+}
+
+nav ul li a i {
+    margin-right: 0.5rem;
+}
+
+nav ul li a span {
+    display: inline;
+}
+
+nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+nav ul li.active a {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.notification-badge {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border-radius: 50%;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.7rem;
+    margin-left: 0.3rem;
+}
+
+/* Upload Header */
+.upload-header {
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+.upload-header h1 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.upload-header p {
+    color: var(--text-light);
+}
+
+/* Upload Container */
+.upload-container {
+    padding: 0 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.upload-form {
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--secondary-color);
+}
+
+.form-section {
+    margin-bottom: 2rem;
+}
+
+.form-section h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Image Upload */
+.image-upload-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.image-upload-box {
+    border: 2px dashed var(--secondary-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.image-upload-box:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(139, 195, 74, 0.05);
+}
+
+.file-input {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+}
+
+.upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-color);
+}
+
+.upload-hint {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.additional-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid var(--secondary-color);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.half-width {
+    flex: 1;
+}
+
+.quantity-input {
+    position: relative;
+}
+
+.quantity-input input {
+    padding-right: 3rem;
+}
+
+.quantity-unit {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox-label input {
+    opacity: 0;
+    position: absolute;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.checkbox-label input:checked ~ .checkmark {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--white);
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-secondary {
+    background: none;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(46, 125, 50, 0.1);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(46, 125, 50, 0.2);
+}
+
+/* Upload Tips */
+.upload-tips {
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--secondary-color);
+}
+
+.upload-tips h3 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.tip-card {
+    margin-bottom: 1.5rem;
+}
+.preview-image {
+    max-height: 150px;
+    object-fit: cover;
+    border: 2px solid var(--secondary-color);
+}
+.tip-card i {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+}
+
+.tip-card h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+/* Footer (same as farmhome.css) */
+footer {
+    background-color: var(--primary-color);
+    color: var(--white);
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    gap: 1.5rem;
+}
+
+.footer-nav a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-nav a.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Animations (same as farmhome.css) */
+.slide-up {
+    animation: slideUp 1s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.slide-in-left {
+    animation: slideInLeft 1s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.rotate {
+    animation: rotate 0.5s ease-out;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(-5deg);
+    }
+    to {
+        transform: rotate(0);
+    }
+}
+
+.pop-in {
+    animation: popIn 0.6s ease-out;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    80% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+    .upload-header {
+        padding: 3rem 1rem;
+    }
+
+    .upload-container {
+        grid-template-columns: 2fr 1fr;
+    }
+
+    .image-upload-container {
+        grid-template-columns: 2fr 2fr;
+    }
+
+    .additional-images {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* Desktop Styles */
+@media (min-width: 1024px) {
+    .upload-header h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Mobile Menu */
+@media (max-width: 600px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    nav {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 80%;
+        height: calc(100vh - 70px);
+        background-color: var(--primary-dark);
+        transition: var(--transition);
+        z-index: 100;
+    }
+
+    nav.active {
+        left: 0;
+    }
+
+    nav ul {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    nav ul li {
+        margin: 0;
+        margin-bottom: 1rem;
+    }
+
+    nav ul li a {
+        padding: 1rem;
+        justify-content: flex-start;
+    }
+
+    nav ul li a span {
+        display: inline;
+    }
+}
+/* Price and Quantity Input Styles */
+.price-input, .quantity-input {
+    position: relative;
+}
+
+.price-input .currency-symbol, 
+.quantity-input .quantity-unit {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.price-input .currency-symbol {
+    left: 12px;
+}
+
+.quantity-input .quantity-unit {
+    right: 12px;
+}
+
+.price-input input, 
+.quantity-input input {
+    width: 100%;
+    padding-left: 30px; /* Space for currency symbol */
+}
+
+.quantity-input input {
+    padding-right: 50px; /* Space for unit */
+}
+
+/* Discount Options */
+.discount-options {
+    border: 1px solid var(--secondary-color);
+    border-radius: 6px;
+    padding: 1rem;
+}
+
+.discount-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.discount-option input {
+    padding: 0.5rem;
+    border: 1px solid var(--secondary-color);
+    border-radius: 4px;
+    width: 80px;
+}
+
+.discount-option .discount-qty {
+    text-align: right;
+}
+
+.discount-option .discount-price {
+    width: 100px;
+}
+
+.btn-remove-discount {
+    background: none;
+    border: none;
+    color: #f44336;
+    cursor: pointer;
+    padding: 0.3rem;
+}
+
+.btn-add-discount {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.5rem;
+}
+
+.btn-add-discount:hover {
+    color: var(--primary-dark);
+}
+
+/* Form Row Layout */
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.half-width {
+    flex: 1;
+}
+/* Description Box Styles */
+.description-box {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 992px) {
+    .description-box {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--secondary-color);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: var(--transition);
+    resize: vertical;
+    min-height: 150px;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+}
+
+.description-tips {
+    background-color: rgba(139, 195, 74, 0.1);
+    border-left: 3px solid var(--accent-color);
+    padding: 1rem;
+    border-radius: 0 6px 6px 0;
+}
+
+.description-tips ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0.5rem;
+}
+
+.description-tips li {
+    margin-bottom: 0.5rem;
+    position: relative;
+    padding-left: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.description-tips li:before {
+    content: "•";
+    color: var(--primary-color);
+    position: absolute;
+    left: 0;
+}
+
+/* Enhanced Tips Section */
+.upload-tips {
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--secondary-color);
+    margin-top: 2rem;
+}
+
+.upload-tips h3 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.tip-card {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: rgba(139, 195, 74, 0.05);
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.tip-card:last-child {
+    margin-bottom: 0;
+}
+
+.tip-card i {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+}
+
+.tip-card h4 {
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.tip-card ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0.5rem;
+}
+
+.tip-card li {
+    margin-bottom: 0.3rem;
+    position: relative;
+    padding-left: 1.3rem;
+    font-size: 0.9rem;
+}
+
+.tip-card li:before {
+    content: "→";
+    color: var(--primary-color);
+    position: absolute;
+    left: 0;
+}
+
+/* Responsive Grid for Tips */
+@media (min-width: 768px) {
+    .upload-tips {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .tip-card {
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 1200px) {
+    .upload-tips {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+#main-preview {
+    max-height: 300px;
+    object-fit: cover;
+    max-width:200px;
+    border: 2px solid var(--secondary-color);
+}
+.image-upload-box{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  width:100%;
+}
+.additional-images{
+    display:flex;
+     align-items: center;
+}
+.preview-align{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  gap:30px;
+}
+
+

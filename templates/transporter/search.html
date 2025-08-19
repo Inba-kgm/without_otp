@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Orders | QuickTrans</title>
+    <link rel="stylesheet" href="{% static 'transporter/search.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu-btn">
+      <i class="fas fa-bars"></i>
+    </div>
+
+    <header>
+      <div class="logo">
+        <h1>Quick<span>Trans</span></h1>
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <a href='{% url "index" %}'
+              ><i class="fas fa-home"></i> <span>Home</span></a
+            >
+          </li>
+          <li class="active">
+            <a href='{% url "search" %}'
+              ><i class="fas fa-search"></i> <span>Search Orders</span></a
+            >
+          </li>
+          <li>
+            <a href='{% url "history" %}'
+              ><i class="fas fa-history"></i> <span>History</span></a
+            >
+          </li>
+          <li>
+            <a href='{% url "profile" %}'
+              ><i class="fas fa-user"></i> <span>Profile</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="search-section">
+        <div class="search-container">
+          <h2 class="slide-up">Find Available Orders</h2>
+          <form class="search-form">
+            <div class="form-group">
+              <label for="location">Location</label>
+              <input
+                type="text"
+                id="location"
+                placeholder="Enter your current location"
+              />
+            </div>
+            <div class="form-group">
+              <label for="radius">Search Radius (km)</label>
+              <select id="radius">
+                <option value="5">5 km</option>
+                <option value="10" selected>10 km</option>
+                <option value="20">20 km</option>
+                <option value="50">50 km</option>
+              </select>
+            </div>
+            <button type="submit" class="btn pulse">Search Orders</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="results-section">
+        <h2 class="slide-up">Available Orders Near You</h2>
+        <div class="order-cards" id="container"></div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-nav">
+        <a href='{% url "index" %}'><i class="fas fa-home"></i></a>
+        <a href='{% url "search" %}' class="active"
+          ><i class="fas fa-search"></i
+        ></a>
+        <a href='{% url "history" %}'><i class="fas fa-history"></i></a>
+        <a href='{% url "profile" %}'><i class="fas fa-user"></i></a>
+      </div>
+      <p>&copy; 2023 QuickTrans. All rights reserved.</p>
+    </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        loadProducts();
+      });
+
+      function loadProducts() {
+        // This would typically come from your Django view as JSON
+        const orders = JSON.parse("{{ objs_json|escapejs }}");
+        const container = document.getElementById("container");
+
+        // Clear any existing content
+        container.innerHTML = "";
+
+        if (orders.length === 0) {
+          container.innerHTML = "<p>No Orders available</p>";
+          return;
+        }
+
+        orders.forEach((order) => {
+          const orderCard = document.createElement("div");
+          orderCard.className = "order-card pop-in new-order";
+
+          // Format the date
+          const orderDate = order.created_at
+            ? new Date(order.created_at).toLocaleString()
+            : "Today, 10:45 AM";
+
+          orderCard.innerHTML = `
+        <form method='POST' action='/transporter/accepted/' enctype='multipart/form-data'>
+          {% csrf_token %}
+          <input type='hidden' name='objid' value='${order.id}'> 
+          <input type='hidden' name='date' value='${order.created_at}'> 
+          <input type='hidden' name='image_1' value='${order.image_1}'> 
+          <input type='hidden' name='product_name' value='${
+            order.product_name
+          }'> 
+          <input type='hidden' name='quantity' value='${order.quantity}'> 
+          <input type='hidden' name='note' value='${order.note}'> 
+          <input type='hidden' name='customer_name' value='${
+            order.customer_name
+          }'> 
+          <input type='hidden' name='phone' value='${order.phone}'> 
+          <input type='hidden' name='price_per_kg' value='${
+            order.price_per_kg
+          }'> 
+          
+          <div class="order-header">
+              <span class="order-id">ORDER #OBJ-${order.id}</span>
+              <span class="order-date">${orderDate}</span>
+              <span class="order-status">New</span>
+          </div>
+
+          <div class="order-body">
+              <div class="product">
+                  <div class="product-img" style="background-image: url('${
+                    order.image_1
+                  }')"></div>
+                  <div class="product-info">
+                      <h4>${order.product_name}</h4>
+                      <p>${order.quantity}kg × ₹${order.price_per_kg}/kg</p>
+                      ${
+                        order.note
+                          ? `<p class="customer-note"><i class="fas fa-comment"></i> "${order.note}"</p>`
+                          : ""
+                      }
+                  </div>
+                  <div class="product-price">₹${order.total}</div>
+              </div>
+
+              <div class="customer-details">
+                  <div>
+                      <h4><i class="fas fa-user"></i> Customer</h4>
+                      <p>${order.customer_name}</p>
+                      <p><i class="fas fa-phone"></i> ${order.phone}</p>
+                  </div>
+                  <div>
+                      <h4><i class="fas fa-truck"></i> Shipping</h4>
+                      <p>From: ${order.fromm}</p>
+                      <p>To: ${order.to}</p>
+                  </div>
+              </div>
+          </div>
+
+          <div class="order-footer">
+            <button type='submit' class="btn-primary pulse accept-btn">
+                <i class="fas fa-check"></i> Accept
+            </button>
+          </div>
+        </form>
+      `;
+
+          container.appendChild(orderCard);
+        });
+      }
+    </script>
+  </body>
+</html>

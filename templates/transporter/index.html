@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transporter Home | QuickTrans</title>
+    <link rel="stylesheet" href="{% static 'transporter/index.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu-btn">
+      <i class="fas fa-bars"></i>
+    </div>
+
+    <header>
+      <div class="logo">
+        <h1>Quick<span>Trans</span></h1>
+      </div>
+      <nav>
+        <ul>
+          <li class="active">
+            <a href='{% url "index" %}'
+              ><i class="fas fa-home"></i> <span>Home</span></a
+            >
+          </li>
+          <li>
+            <a href='{% url "search" %}'
+              ><i class="fas fa-search"></i> <span>Search Orders</span></a
+            >
+          </li>
+          <li>
+            <a href='{% url "history" %}'
+              ><i class="fas fa-history"></i> <span>History</span></a
+            >
+          </li>
+          <li>
+            <a href='{% url "profile" %}'
+              ><i class="fas fa-user"></i> <span>Profile</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-content">
+          <h2 class="slide-in">Welcome Back, {{ myname }}!</h2>
+          <p class="fade-in">Ready to pick up your next delivery?</p>
+          <a href="{% url 'search' %}" class="btn pulse">Find Orders Now</a>
+        </div>
+        <div class="hero-image">
+          <img
+            src="{% static 'images/transporter/truck.jpg' %}"
+            alt="Delivery Truck"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        </div>
+      </section>
+
+      <section class="stats">
+        <a href="{% url 'transdelivered' %}">
+        <div class="stat-card rotate">
+          <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+          <h3>{{ delivered_count }}</h3>
+          <p>Orders Completed</p>
+          </a>
+        </div>
+        <a href="{% url 'history' %}">
+        <div class="stat-card rotate">
+          <div class="stat-icon"><i class="fas fa-star"></i></div>
+          <h3>{{ shipped_count }}</h3>
+          <p>Delivery Ongoing</p>
+          </a>
+        </div>
+        <div class="stat-card rotate">
+          <div class="stat-icon"><i class="fas fa-clock"></i></div>
+          <h3>98%</h3>
+          <p>On Time Rate</p>
+        </div>
+      </section>
+
+      <section class="quick-actions">
+        <h2 class="slide-up">Quick Actions</h2>
+        <div class="action-buttons">
+          <a href="search.html" class="action-btn">
+            <i class="fas fa-search"></i>
+            <span>Available Orders</span>
+          </a>
+          <a href="history.html" class="action-btn">
+            <i class="fas fa-dollar-sign"></i>
+            <span>View Earnings</span>
+          </a>
+          <a href="profile.html" class="action-btn">
+            <i class="fas fa-user-edit"></i>
+            <span>Update Profile</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-nav">
+        <a href='{% url "index" %}' class="active"
+          ><i class="fas fa-home"></i
+        ></a>
+        <a href='{% url "search" %}'><i class="fas fa-search"></i></a>
+        <a href='{% url "history" %}'><i class="fas fa-history"></i></a>
+        <a href='{% url "profile" %}'><i class="fas fa-user"></i></a>
+      </div>
+      <p>&copy; 2023 QuickTrans. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

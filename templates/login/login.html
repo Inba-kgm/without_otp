@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HarvestHub - Login</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'login/auth.css' %}" />
+  </head>
+  <body>
+    <div class="auth-container">
+      <!-- Background Animation Elements -->
+      <div class="bg-animation">
+        <div class="leaf leaf-1"></div>
+        <div class="leaf leaf-2"></div>
+        <div class="leaf leaf-3"></div>
+        <div class="sun"></div>
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+      </div>
+
+      <!-- Login Form -->
+      <div class="auth-form login-form">
+        <div class="form-header">
+          <img
+            src="{% static 'images/harvesthub1.png' %}"
+            alt="FarmDash Logo"
+            class="logo"
+          />
+          <h1>Welcome Back to HarvestHub!</h1>
+          <p>Login to manage your produce and orders</p>
+        </div>
+
+        <form method="post" action="/entry/login/">
+          {% csrf_token %}
+          <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input
+              name="name"
+              type="text"
+              placeholder="Username or Email"
+              required
+            />
+          </div>
+
+          <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input
+              name="pass"
+              type="password"
+              placeholder="Password"
+              required
+            />
+            <i class="fas fa-eye toggle-password"></i>
+          </div>
+          <br />
+
+          <p class="err">{{ usrobj }}</p>
+          <br />
+
+          <div class="form-options">
+            <label class="remember-me">
+              <input type="checkbox" /> Remember me
+            </label>
+            <a href="#" class="forgot-password">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn-login">
+            <i class="fas fa-sign-in-alt"></i> Login
+          </button>
+
+          <div class="divider">
+            <span>or</span>
+          </div>
+
+          <div class="auth-switch">
+            New to FarmDash?
+            <a href="{% url 'signup_page' %}">Create account</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

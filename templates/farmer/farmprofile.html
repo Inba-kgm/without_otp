@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile | FarmDash</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'farmer/farmprofile.css' %}" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <h1>Harvest<span>Hub</span></h1>
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <a href="{% url 'farmhome' %}"
+              ><i class="fas fa-house"></i> <span>Home</span></a
+            >
+          </li>
+          <li>
+            <a href="{% url 'farmupload' %}"
+              ><i class="fas fa-arrow-up"></i> <span>Upload</span></a
+            >
+          </li>
+          <li>
+            <a href="{% url 'farmorders' %}"
+              ><i class="fas fa-cart-shopping"></i> <span>Orders</span>
+              <span class="notification-badge">3</span></a
+            >
+          </li>
+          <li class="active">
+            <a href="{% url 'farmprofile' %}"
+              ><i class="fas fa-user"></i> <span>Profile</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="profile-section">
+        <div class="profile-header slide-up">
+          <h2>{{ myname }}</h2>
+          <p class="rating">
+            <span class="stars">★★★★★</span> 4.8 (24 reviews)
+          </p>
+        </div>
+
+        <div class="profile-stats">
+          <div class="stat-card rotate">
+            <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+            <h3>{{ delivered_count }}</h3>
+            <p>Orders Fulfilled</p>
+          </div>
+          <div class="stat-card rotate">
+            <div class="stat-icon"><i class="fas fa-rupee-sign"></i></div>
+            <h3>{{ count_count }}</h3>
+            <p>Products Uploaded</p>
+          </div>
+          <div class="stat-card rotate">
+            <div class="stat-icon"><i class="fas fa-star"></i></div>
+            <h3>4.8</h3>
+            <p>Avg Rating</p>
+          </div>
+        </div>
+
+        <div class="profile-details pop-in">
+          <h3 class="slide-in-left">
+            <i class="fas fa-id-card"></i> Personal Information
+          </h3>
+          <div class="detail-group">
+            <label>Full Name</label>
+            <p>{{ myname }}</p>
+          </div>
+          <div class="detail-group">
+            <label>Email</label>
+            <p>{{ email }}</p>
+          </div>
+          <div class="detail-group">
+            <label>Phone</label>
+            <p>+91 {{ phone }}</p>
+          </div>
+          <div class="detail-group">
+            <label>Join Date</label>
+            <p>{{ date }}</p>
+          </div>
+
+          <h3 class="slide-in-left">
+            <i class="fas fa-tractor"></i> Farm Information
+          </h3>
+          <div class="detail-group">
+            <label>Farm Name</label>
+            <p>{{ farmname }}</p>
+          </div>
+          <div class="detail-group">
+            <label>Location</label>
+            <p>{{ location }}</p>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <a href="{% url 'editprofile' %}" class="action-btn fade-in">
+            <i class="fas fa-edit"></i>
+            <span>Edit Profile</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-nav">
+        <a href="farmhome.html"><i class="fas fa-house"></i></a>
+        <a href="farmupload.html"><i class="fas fa-arrow-up"></i></a>
+        <a href="farmorders.html"><i class="fas fa-cart-shopping"></i></a>
+        <a href="farmprofile.html" class="active"
+          ><i class="fas fa-user"></i
+        ></a>
+      </div>
+      <p>&copy; 2023 FarmDash. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

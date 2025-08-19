@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order History | QuickTrans</title>
+    <link rel="stylesheet" href="{% static 'transporter/history.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu-btn">
+      <i class="fas fa-bars"></i>
+    </div>
+
+    <header>
+      <div class="logo">
+        <h1>Quick<span>Trans</span></h1>
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <a href='{% url "index" %}'
+              ><i class="fas fa-home"></i> <span>Home</span></a
+            >
+          </li>
+          <li>
+            <a href='{% url "search" %}'
+              ><i class="fas fa-search"></i> <span>Search Orders</span></a
+            >
+          </li>
+          <li class="active">
+            <a href='{% url "history" %}'
+              ><i class="fas fa-history"></i> <span>History</span></a
+            >
+          </li>
+          <li>
+            <a href='{% url "profile" %}'
+              ><i class="fas fa-user"></i> <span>Profile</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="history-section">
+        <h2 class="slide-up">Your Order History</h2>
+        <div class="stats">
+          <div class="stat-card rotate">
+            <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+            <h3>{{ delivered_count }}</h3>
+            <p>Orders Completed</p>
+          </div>
+          <div class="stat-card rotate">
+            <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+            <h3>{{ shipped_count }}</h3>
+            <p>Orders Ongoing</p>
+          </div>
+          <div class="stat-card rotate">
+            <div class="stat-icon"><i class="fas fa-star"></i></div>
+            <h3>4.8</h3>
+            <p>Average Rating</p>
+          </div>
+        </div>
+
+        <div class="history-tabs">
+          <a href="{% url 'transhistory' %}" class="tab-btn">Accepted</a>
+          <a href="{% url 'transdelivered' %}" class="tab-btn active"
+            >Delivered</a
+          >
+        </div>
+
+        <div class="history-cards" id="container"></div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-nav">
+        <a href='{% url "index" %}'><i class="fas fa-home"></i></a>
+        <a href='{% url "search" %}'><i class="fas fa-search"></i></a>
+        <a href='{% url "history" %}' class="active"
+          ><i class="fas fa-history"></i
+        ></a>
+        <a href='{% url "profile" %}'><i class="fas fa-user"></i></a>
+      </div>
+      <p>&copy; 2023 QuickTrans. All rights reserved.</p>
+    </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        createHistoryCard();
+      });
+
+      function createHistoryCard() {
+        const orders = JSON.parse("{{ objs_json|escapejs }}");
+        const container = document.getElementById("container");
+
+        // Clear any existing content
+        container.innerHTML = "";
+
+        if (orders.length === 0) {
+          container.innerHTML = "<p>No New Orders available</p>";
+          return;
+        }
+
+        orders.forEach((order) => {
+          const historyCard = document.createElement("div");
+          historyCard.className = "history-card pop-in";
+
+          // Format date if needed
+          const orderDate = order.created_at
+            ? new Date(order.created_at).toLocaleDateString()
+            : "Oct 14, 2023";
+
+          historyCard.innerHTML = `
+    <div class="history-header">
+      <h3>Order #${order.id || "TR12344"}</h3>
+      <span class="status ${
+        order.status ? order.status.toLowerCase() : "completed"
+      }">
+        ${order.status || "Completed"}
+      </span>
+    </div>
+    <div class="history-details">
+      <p><strong>Product Name:</strong> ${
+        order.product_name || "Tech Store"
+      }</p>
+      <p><strong>Date:</strong> ${order.created_at || "Tech Store"}</p>
+      <p><strong>Customer Name:</strong> ${
+        order.customer_name || "Tech Store"
+      }</p>
+      <p><strong>Quantity:</strong> ${order.quantity || "Tech Store"}/kg</p>
+      <p><strong>Price:</strong> Rs.${
+        order.price_per_kg || "Tech Store"
+      } per kg</p>
+      <p><strong>From:</strong> ${order.fromm || "Tech Store"}</p>
+      <p><strong>To:</strong> ${order.to || "456 Oak Avenue"}</p>
+      <button class='action-btn'>Delivery Completed</button>
+    </div>
+  `;
+          container.appendChild(historyCard);
+        });
+      }
+    </script>
+  </body>
+</html>

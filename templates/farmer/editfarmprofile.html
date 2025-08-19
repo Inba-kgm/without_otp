@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit - Farmer Profile</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: #2E7D32;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color:aliceblue;
+      }
+      .totaldiv {
+        color: black;
+        border: 2px solid black;
+        border-radius: 30px;
+        padding: 20px 50px;
+        background-color: antiquewhite;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+      .inputs {
+        display: flex;
+        flex-direction: column;
+      }
+      .inputss {
+        font-size: 1.5rem;
+      }
+      .btn{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      .btns{
+        background-color: greenyellow;
+        padding: 0 20px;
+        border-radius: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Edit - Profile</h1>
+    <div class="totaldiv">
+        <form method="post" action="/farmer/changeinfo/">
+            {% csrf_token %}
+      <div class="subdiv">
+        <label>Name:</label>
+        <span class="inputs">
+          <input class="inputss" name="myname" value="{{ myname }}" required />
+        </span>
+      </div>
+      <div class="subdiv">
+        <label>Phone:</label>
+        <span class="inputs">
+          <input class="inputss" name="phone" value="{{ phone }}" required />
+        </span>
+      </div>
+      <div class="subdiv">
+        <label>Email:</label>
+        <span class="inputs">
+          <input class="inputss" name="email" value="{{ email }}" required />
+        </span>
+      </div>
+      <div class="subdiv">
+        <label>Farm Name:</label>
+        <span class="inputs">
+          <input
+            class="inputss"
+            name="farmname"
+            value="{{ farmname }}"
+            required
+          />
+        </span>
+      </div>
+      <div class="subdiv">
+        <label>Farm Location:</label>
+        <div class="inputs" class="description-box">
+          <textarea
+            name="location"
+            id="product-description"
+            class="inputss"
+            rows="6"
+            placeholder="Your Farm Address ..."
+            required
+          ></textarea>
+        </div>
+      </div>
+      <div class="btn">
+      <button type="submit" class="inputss btns">Submit</button>
+      </div>
+    </div>
+    </form>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const descriptionTextarea = document.getElementById(
+          "product-description"
+        );
+        <!-- const descriptionTips = document.querySelector(".description-tips"); -->
+
+        // Show character count
+        const charCount = document.createElement("div");
+        charCount.className = "char-count";
+        charCount.textContent = "0/1000 characters";
+        descriptionTextarea.parentNode.insertBefore(
+          charCount,
+          descriptionTextarea.nextSibling
+        );
+
+        descriptionTextarea.addEventListener("input", function () {
+          const currentLength = this.value.length;
+          charCount.textContent = `${currentLength}/1000 characters`;
+
+          if (currentLength > 800) {
+            charCount.style.color = "#ff9800"; // Orange
+          } else {
+            charCount.style.color = "#666";
+          }
+
+          if (currentLength >= 1000) {
+            charCount.style.color = "#f44336"; // Red
+            this.value = this.value.substring(0, 1000);
+          }
+        });
+
+        // Auto-expand textarea as user types
+        descriptionTextarea.addEventListener("input", function () {
+          this.style.height = "auto";
+          this.style.height = this.scrollHeight + "px";
+        });
+      });
+    </script>
+  </body>
+</html>

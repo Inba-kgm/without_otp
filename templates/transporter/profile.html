@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Profile | QuickTrans</title>
+    <link rel="stylesheet" href="{% static 'transporter/profile.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu-btn">
+      <i class="fas fa-bars"></i>
+    </div>
+
+    <header>
+      <div class="logo">
+        <h1>Quick<span>Trans</span></h1>
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <a href='{% url "index" %}'
+              ><i class="fas fa-home"></i> <span>Home</span></a
+            >
+          </li>
+          <li>
+            <a href='{% url "search" %}'
+              ><i class="fas fa-search"></i> <span>Search Orders</span></a
+            >
+          </li>
+          <li>
+            <a href='{% url "history" %}'
+              ><i class="fas fa-history"></i> <span>History</span></a
+            >
+          </li>
+          <li class="active">
+            <a href='{% url "profile" %}'
+              ><i class="fas fa-user"></i> <span>Profile</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="profile-section">
+        <div class="profile-header slide-up">
+          <div class="profile-avatar">
+            <img
+              src="https://via.placeholder.com/150/8B4513/ffffff?text=JT"
+              alt="Profile Avatar"
+              class="pulse"
+            />
+          </div>
+          <h2>John Transporter</h2>
+          <p class="rating">
+            <span class="stars">★★★★★</span> 4.8 (24 reviews)
+          </p>
+        </div>
+
+        <div class="profile-stats">
+          <div class="stat-card rotate">
+            <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+            <h3>127</h3>
+            <p>Completed</p>
+          </div>
+          <div class="stat-card rotate">
+            <div class="stat-icon"><i class="fas fa-clock"></i></div>
+            <h3>98%</h3>
+            <p>On Time</p>
+          </div>
+          <div class="stat-card rotate">
+            <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+            <h3>$1,245</h3>
+            <p>Earned</p>
+          </div>
+        </div>
+
+        <div class="profile-details pop-in">
+          <h3 class="slide-in-left">Personal Information</h3>
+          <div class="detail-group">
+            <label>Full Name</label>
+            <p>John Transporter</p>
+          </div>
+          <div class="detail-group">
+            <label>Email</label>
+            <p>john.transporter@example.com</p>
+          </div>
+          <div class="detail-group">
+            <label>Phone</label>
+            <p>(555) 123-4567</p>
+          </div>
+          <div class="detail-group">
+            <label>Vehicle Type</label>
+            <p>Compact Car</p>
+          </div>
+          <div class="detail-group">
+            <label>License Plate</label>
+            <p>ABC1234</p>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <a href="#" class="action-btn fade-in">
+            <i class="fas fa-edit"></i>
+            <span>Edit Profile</span>
+          </a>
+          <a href="#" class="action-btn fade-in">
+            <i class="fas fa-shield-alt"></i>
+            <span>Privacy Settings</span>
+          </a>
+          <a href="#" class="action-btn fade-in">
+            <i class="fas fa-question-circle"></i>
+            <span>Help Center</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-nav">
+        <a href='{% url "index" %}'><i class="fas fa-home"></i></a>
+        <a href='{% url "search" %}'
+          ><i class="fas fa-search"></i
+        ></a>
+        <a href='{% url "history" %}'><i class="fas fa-history"></i></a>
+        <a href='{% url "profile" %}' class="active"><i class="fas fa-user"></i></a>
+      </div>
+      <p>&copy; 2023 QuickTrans. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

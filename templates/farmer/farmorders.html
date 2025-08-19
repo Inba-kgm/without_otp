@@ -1,0 +1,202 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Orders | HarvestHub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'farmer/farmorders.css' %}" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <h1>Harvest<span>Hub</span></h1>
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <a href="{% url 'farmhome' %}"
+              ><i class="fas fa-house"></i> <span>Home</span></a
+            >
+          </li>
+          <li>
+            <a href="{% url 'farmupload' %}"
+              ><i class="fas fa-arrow-up"></i> <span>Upload</span></a
+            >
+          </li>
+          <li class="active">
+            <a href="{% url 'farmorders' %}"
+              ><i class="fas fa-cart-shopping"></i> <span>Orders</span>
+              <span class="notification-badge">3</span></a
+            >
+          </li>
+          <li>
+            <a href="{% url 'farmprofile' %}"
+              ><i class="fas fa-user"></i> <span>Profile</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="orders-header slide-up">
+        <h2><i class="fas fa-shopping-basket"></i> My Orders</h2>
+        <div class="order-stats">
+
+          <a href="{% url 'farmorders' %}">
+          <div class="stat-card rotate">
+            <div class="stat-icon"><i class="fas fa-clock"></i></div>
+            <h3>{{ new_count }}</h3>
+            <p>Pending</p>
+            </a>
+          </div>
+          
+
+          <a href="{% url 'farmpending' %}">
+          <div class="stat-card rotate highlight">
+            <div class="stat-icon"><i class="fas fa-truck"></i></div>
+            <h3>{{ accepted_count }}</h3>
+            <p>Accepted</p>
+            </a>
+          </div>
+          
+
+          <a href="{% url 'farmcancelled' %}">
+          <div class="stat-card rotate">
+            <div class="stat-icon"><i class="fas tree"></i></div>
+            <h3>{{ cancelled_count }}</h3>
+            <p>Cancelled</p>
+            </a>
+            
+          </div>
+          
+        </div>
+      </section>
+
+      <section class="order-tabs">
+        <a class="tab-btn" href="{% url 'farmallorders' %}">All orders</a>
+        <a class="tab-btn active" href="{% url 'farmorders' %}">New</a>
+        <a class="tab-btn" href="{% url 'farmpending' %}">Accepted</a>
+        <a class="tab-btn" href="{% url 'farmshipped' %}">Shipped</a>
+        <a class="tab-btn" href="{% url 'farmdelivered' %}">Delivered</a>
+        <a class="tab-btn" href="{% url 'farmcancelled' %}">Cancelled</a>
+      </section>
+
+      <section class="orders-list" id="container"></section>
+    </main>
+
+    <footer>
+      <div class="footer-nav">
+        <a href="farmhome.html"><i class="fas fa-house"></i></a>
+        <a href="farmupload.html"><i class="fas fa-arrow-up"></i></a>
+        <a href="farmorders.html" class="active"
+          ><i class="fas fa-cart-shopping"></i
+        ></a>
+        <a href="farmprofile.html"><i class="fas fa-user"></i></a>
+      </div>
+      <p>&copy; 2023 FarmDash. All rights reserved.</p>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        loadProducts();
+      });
+
+      function loadProducts() {
+        const orders = JSON.parse("{{ objs_json|escapejs }}");
+        const container = document.getElementById("container");
+
+        // Clear any existing content
+        container.innerHTML = "";
+
+        if (orders.length === 0) {
+          container.innerHTML = "<p>No New Orders available</p>";
+          return;
+        }
+
+        orders.forEach((order) => {
+          const orderCard = document.createElement("div");
+          orderCard.className = "order-card pop-in new-order";
+
+          // Format the date (you might want to format this properly from your order data)
+          const orderDate = order.created_at
+            ? new Date(order.created_at).toLocaleString()
+            : "Today, 10:45 AM";
+
+          orderCard.innerHTML = `
+          <form method='POST' action='/farmer/acceptcarts/' enctype='multipart/form-data'>
+          {% csrf_token %}
+          <input type='hidden' name='objid' value='${order.id}'> 
+          <input type='hidden' name='date' value='${order.orderDate}'> 
+          <input type='hidden' name='image_1' value='${order.image_1}'> 
+          <input type='hidden' name='product_name' value='${
+            order.product_name
+          }'> 
+          <input type='hidden' name='quantity' value='${order.quantity}'> 
+          <input type='hidden' name='note' value='${order.note}'> 
+          <input type='hidden' name='customer_name' value='${
+            order.customer_name
+          }'> 
+          <input type='hidden' name='phone' value='${order.phone}'> 
+          <input type='hidden' name='price_per_kg' value='${
+            order.price_per_kg
+          }'> 
+            <div class="order-header">
+                <span class="order-id">ORDER #OBJ-${order.id}</span>
+                <span class="order-date">${orderDate}</span>
+                <span class="order-status">${order.status || "New"}</span>
+            </div>
+
+            <div class="order-body">
+                <div class="product">
+                    <div class="product-img" style="background-image: url('${
+                      order.image_1
+                    }')"></div>
+                    <div class="product-info">
+                        <h4>${order.product_name}</h4>
+                        <p>${order.quantity}kg × ₹${order.price_per_kg}/kg</p>
+                        ${
+                          order.note
+                            ? `<p class="customer-note"><i class="fas fa-comment"></i> "${order.note}"</p>`
+                            : ""
+                        }
+                    </div>
+                    <div class="product-price">₹${order.total}</div>
+                </div>
+
+                <div class="customer-details">
+                    <div>
+                        <h4><i class="fas fa-user"></i> Customer</h4>
+                        <p>${order.customer_name}</p>
+                        <p><i class="fas fa-phone"></i> ${order.phone}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-footer">
+              <button type='submit' class="btn-primary pulse accept-btn"
+              >
+                  <i class="fas fa-check"></i>Accept
+              </button>
+            </form>
+              <form method='post' action='/farmer/removeorder/'>
+                {% csrf_token %}
+                <input type='hidden' name='objid' value='${order.id}'> 
+                <button class="btn-outline" type='submit'>
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+              </form>
+            </div>
+        `;
+
+          container.appendChild(orderCard);
+        });
+      }
+    </script>
+  </body>
+</html>
