@@ -21,7 +21,7 @@ body {
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     overflow-x: hidden;
 }
-leaf.png
+
 .auth-container {
     min-height: 100vh;
     display: flex;
@@ -41,7 +41,6 @@ leaf.png
 
 .leaf {
     position: absolute;
-    background-image: url('leaf.png');
     background-size: contain;
     background-repeat: no-repeat;
     opacity: 0.7;
