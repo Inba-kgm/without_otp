@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-em#adiensl)lc5u&lmhws!&apk$5s(pac76-37s=%d(y19(=9&
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'https://without-otp.onrender.com',
+    'without-otp.onrender.com',
     'localhost',
     '127.0.0.1',
 ]
